@@ -44,4 +44,8 @@ public class PosMachine {
         return Collections.frequency(barcodeList, currentBarcode);
     }
 
+    public static int getItemSubTotal(int unitPrice, int quantity) {
+        return unitPrice * quantity;
+    }
+
 }
