@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static pos.machine.ItemDataLoader.loadAllItemInfos;
 
@@ -46,6 +47,13 @@ public class PosMachine {
 
     public static int getItemSubTotal(int unitPrice, int quantity) {
         return unitPrice * quantity;
+    }
+
+    public static int getFinalTotal(List<Item> itemList) {
+        return itemList.stream()
+                .map(Item::getSubTotal)
+                .collect(Collectors.toList())
+                .stream().mapToInt(Integer::intValue).sum();
     }
 
 }
