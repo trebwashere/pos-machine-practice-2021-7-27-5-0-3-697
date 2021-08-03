@@ -13,7 +13,7 @@ public class PosMachine {
     public static String printReceipt(List<String> barcodes) {
         List<Item> itemList = getItems(barcodes);
         Receipt receipt = generateReceiptDetails(itemList);
-        return null;
+        return formatReceipt(receipt);
     }
 
     public static List<Item> getItems(List<String> barcodeList) {
@@ -63,6 +63,25 @@ public class PosMachine {
                 .map(Item::getSubTotal)
                 .collect(Collectors.toList())
                 .stream().mapToInt(Integer::intValue).sum();
+    }
+
+    public static String formatReceipt(Receipt receipt) {
+        String receiptOutput = "***<store earning no money>Receipt***\n";
+        for (Item item : receipt.getItemList()) {
+            receiptOutput =
+                    receiptOutput
+                            .concat(String.format("Name: %s, " +
+                                            "Quantity: %d, " +
+                                            "Unit price: %d (yuan), " +
+                                            "Subtotal: %d (yuan)\n", item.getName(),
+                                    item.getQuantity(),
+                                    item.getUnitPrice(),
+                                    item.getSubTotal()));
+        }
+        receiptOutput = receiptOutput.concat("----------------------\n");
+        receiptOutput = receiptOutput.concat(String.format("Total: %d (yuan)\n", receipt.getTotalPrice()));
+        receiptOutput = receiptOutput.concat("**********************");
+        return receiptOutput;
     }
 
 }
