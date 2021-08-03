@@ -12,6 +12,7 @@ import static pos.machine.ItemDataLoader.loadAllItemInfos;
 public class PosMachine {
     public static String printReceipt(List<String> barcodes) {
         List<Item> itemList = getItems(barcodes);
+        Receipt receipt = generateReceiptDetails(itemList);
         return null;
     }
 
@@ -43,6 +44,14 @@ public class PosMachine {
 
     public static int getItemCount(String currentBarcode,List<String> barcodeList) {
         return Collections.frequency(barcodeList, currentBarcode);
+    }
+
+    public static Receipt generateReceiptDetails(List<Item> itemList) {
+        itemList.forEach(item -> item.setSubTotal(getItemSubTotal(item.getUnitPrice(), item.getQuantity())));
+        return new Receipt(){{
+            setItemList(itemList);
+            setTotalPrice(getFinalTotal(itemList));
+        }};
     }
 
     public static int getItemSubTotal(int unitPrice, int quantity) {
