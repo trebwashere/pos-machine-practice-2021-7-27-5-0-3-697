@@ -1,5 +1,6 @@
 package pos.machine;
 
+import java.util.Collections;
 import java.util.List;
 
 import static pos.machine.ItemDataLoader.loadAllItemInfos;
@@ -17,6 +18,10 @@ public class PosMachine {
             }
         }
         return null;
+    }
+
+    public static int getItemCount(String currentBarcode,List<String> barcodeList) {
+        return Collections.frequency(barcodeList, currentBarcode);
     }
 
 }
